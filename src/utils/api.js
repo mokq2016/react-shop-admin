@@ -1,6 +1,5 @@
-import http from "../utils/http";
 
 const API = {
-  login:'/users/login'
+  login: '/users/login'
 }
-export default API;
+export default API

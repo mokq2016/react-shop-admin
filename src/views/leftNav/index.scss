@@ -1,0 +1,11 @@
+.left-nav-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  .logo {
+    height: 64px;
+  }
+  .left-menu {
+    flex: 1;
+  }
+}
