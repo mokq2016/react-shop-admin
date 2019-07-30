@@ -41,6 +41,6 @@ export default self => [
     title: '操作',
     key: 'operation',
     width: 200,
-    render: (text, record, index) => (<a href="javascript:;">编辑</a>)
+    render: (text, record, index) => (<span><a href="javascript:;" onClick={() => { self.edit({ text, record, index }) }}>编辑</a><a href="javascript:;" onClick={() => { self.edit({ text, record, index }) }}>删除</a></span>)
   }
 ]

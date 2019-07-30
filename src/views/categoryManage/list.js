@@ -7,6 +7,18 @@ import createColumns from './column'
 const { Content, Header, Footer } = Layout
 
 export default class list extends Component {
+  getData = (currentPage, pageSize) => {
+    console.log(currentPage, pageSize)
+  }
+
+  edit = (obj) => {
+    console.log(obj)
+  }
+
+  deleteRow = () => {
+    console.log()
+  }
+
   render() {
     const list = []
     for (let i = 0; i < 15; i++) {
@@ -29,6 +41,7 @@ export default class list extends Component {
       selectedRowKeys: [],
       selectType: 'checkbox'
     }
+
     return (
       <Layout>
         <Header style={{
@@ -38,10 +51,10 @@ export default class list extends Component {
           <Button type="primary" icon="plus" className="mr-10">
             新增
           </Button>
-          <Button type="danger" icon="delete">删除</Button>
+          <Button type="danger" icon="delete" onClick={this.deleteRow}>删除</Button>
         </Header>
         <Content>
-          <DataTable {...dataTableProps} />
+          <DataTable {...dataTableProps} onPageChange={this.getData} />
         </Content>
       </Layout>
     )

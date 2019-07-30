@@ -22,11 +22,11 @@ export default class DataTable extends Component {
   }
 
   onChange = (page, pageSize) => {
-    console.log(page, pageSize)
+    this.props.onPageChange(page, pageSize)
   }
 
   onShowSizeChange = (current, size) => {
-    console.log(current, size)
+    this.props.onPageChange(current, size)
   }
 
 
