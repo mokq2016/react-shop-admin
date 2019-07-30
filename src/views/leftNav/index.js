@@ -17,7 +17,7 @@ export default class LeftNav extends Component {
         icon: 'book',
         menuItemArr: [
           {
-            path: '/main/category',
+            path: '/category',
             name: '分类管理'
           },
           {

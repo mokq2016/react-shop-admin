@@ -52,7 +52,13 @@
     "no-undef": 0,
     "react/prefer-stateless-function": 0,
     "react/no-this-in-sfc": 0,
-    "react/no-access-state-in-setstate": 0
+    "react/no-access-state-in-setstate": 0,
+    "no-unused-vars":0,
+    "no-use-before-define":0,
+    "no-underscore-dangle":0,
+    "no-script-url":0,
+    "no-plusplus":0,
+    "react/react-in-jsx-scope":0
   },
   "parserOptions": {
     "ecmaFeatures": {

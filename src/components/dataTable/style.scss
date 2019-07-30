@@ -1,0 +1,15 @@
+
+.data-table{
+  .ant-table-body{
+    margin: 0!important;
+    .ant-table-tbody{
+      tr.ant-table-row:nth-child(odd){
+        background: #fff
+      }
+    }
+  }
+  .paging-wraper{
+    padding: 10px;
+    text-align: right;
+  }
+}
