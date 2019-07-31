@@ -60,7 +60,7 @@ state = {
           <Button type="primary" icon="plus" className="mr-10">
             新增
           </Button>
-          <Button type="danger" icon="delete" onClick={this.deleteRow}>删除</Button>
+          <Button type="danger" icon="delete" onClick={this.deleteRow} disabled={!(this.state.selectedRowKeys.length > 0)}>删除</Button>
         </Header>
         <Content>
           <DataTable {...dataTableProps} onPageChange={this.getData} />
