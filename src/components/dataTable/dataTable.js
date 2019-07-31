@@ -12,13 +12,15 @@ export default class DataTable extends Component {
 
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
   }
 
   onSelectChange = (selectedRowKeys, selectedRows) => {
     this.setState({
       selectedRowKeys
     })
+    if (this.props.onRowSelect) {
+      this.props.onRowSelect({ selectedRowKeys, selectedRows })
+    }
   }
 
   onChange = (page, pageSize) => {

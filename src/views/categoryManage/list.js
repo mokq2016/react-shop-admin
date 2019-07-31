@@ -3,10 +3,17 @@ import { Layout, Button } from 'antd'
 
 import DataTable from '../../components/dataTable/dataTable'
 import createColumns from './column'
+import RowSelectHandle from '../../decorators/handleRowSelect'
 
 const { Content, Header, Footer } = Layout
 
-export default class list extends Component {
+@RowSelectHandle
+class list extends Component {
+state = {
+  selectedRowKeys: [],
+  selectRows: []
+}
+
   getData = (currentPage, pageSize) => {
     console.log(currentPage, pageSize)
   }
@@ -16,8 +23,9 @@ export default class list extends Component {
   }
 
   deleteRow = () => {
-    console.log()
+    console.log(this.state.selectRows)
   }
+
 
   render() {
     const list = []
@@ -38,8 +46,9 @@ export default class list extends Component {
         currentPage: 1,
         total: 30
       },
-      selectedRowKeys: [],
-      selectType: 'checkbox'
+      selectedRowKeys: this.state.selectedRowKeys,
+      selectType: 'checkbox',
+      onRowSelect: this.rowSelectHandle.bind(this)
     }
 
     return (
@@ -60,3 +69,4 @@ export default class list extends Component {
     )
   }
 }
+export default list
