@@ -51,7 +51,7 @@ export default class DataTable extends Component {
           pagination={false}
         />
         {
-          showPager ? <Pagination className="paging-wraper" onChange={this.onChange} onShowSizeChange={this.onShowSizeChange} total={50} showSizeChanger showQuickJumper /> : ''
+          showPager ? <Pagination className="paging-wraper" onChange={this.onChange} onShowSizeChange={this.onShowSizeChange} total={dataList.total} showSizeChanger showQuickJumper /> : ''
         }
 
       </div>
