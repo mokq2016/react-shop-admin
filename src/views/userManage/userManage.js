@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {
-  Layout, Button, Modal, Form, Input, message
+  Layout, Button, Modal, Form, Input, message, Switch
 } from 'antd'
 
 import DataTable from '../../components/dataTable/dataTable'
@@ -14,30 +14,32 @@ const { TextArea } = Input
 const { confirm } = Modal
 
 @RowSelectHandle
-class list extends Component {
-state = {
-  selectedRowKeys: [],
-  selectRows: [],
-  list: [],
-  pager: {
-    currentPage: 1,
-    pageSize: 10,
-    total: 0
-  },
-  ModalShow: false,
-  prodclassId: '',
-  prodClassName: '',
-  described: '',
-  remark: '',
-  modalType: 'add'
-}
+class UserManage extends Component {
+  state = {
+    selectedRowKeys: [],
+    selectRows: [],
+    list: [],
+    pager: {
+      currentPage: 1,
+      pageSize: 10,
+      total: 0
+    },
+    ModalShow: false,
+    formData: {
+      userName: ''
+    }
+  }
 
-componentWillMount() {
-  this.getData(this.state.pager.currentPage, this.state.pager.pageSize)
-}
+  componentWillMount() {
+    this.getData(this.state.pager.currentPage, this.state.pager.pageSize)
+  }
+
+  setFormData(obj) {
+    this.setState({ formData: Object.assign(this.state.formData, obj) })
+  }
 
   getData = (currentPage, pageSize) => {
-    http.post('/productClass/list', {}).then((result) => {
+    http.post('/user/list', {}).then((result) => {
       this.setState({
         list: result.list,
         pager: {
@@ -46,34 +48,6 @@ componentWillMount() {
           total: result.total
         }
       })
-    })
-  }
-
-  edit = (obj) => {
-    this.props.form.setFieldsValue({
-      prodClassName: obj.prodclassName
-    })
-    this.setState({
-      prodclassId: obj.prodclassId,
-      prodClassName: obj.prodclassName,
-      described: obj.described,
-      remark: obj.remark
-    }, () => {
-      this.showModal('update')
-    })
-  }
-
-  deleteRow = (prodclassId) => {
-    const self = this
-    confirm({
-      title: '温馨提示',
-      content: '您确定要删除？',
-      onOk() {
-        self.doDelete(prodclassId)
-      },
-      onCancel() {
-        console.log('Cancel')
-      }
     })
   }
 
@@ -89,28 +63,46 @@ componentWillMount() {
     })
   }
 
-  addData = () => {
-    http.post('/productClass/insert', {
-      prodclassName: this.state.prodClassName,
-      described: this.state.described,
-      remark: this.state.remark
-    }).then((result) => {
-      if (result) {
-        this.setState({
-          ModalShow: false
-        })
-        message.success('添加成功')
-        this.getData(this.state.pager.currentPage, this.state.pager.pageSize)
-      }
+  handleCancel = () => {
+    this.setState({
+      ModalShow: false
+    })
+  }
+
+  showModal = () => {
+    this.setState({
+      ModalShow: true
+    })
+  }
+
+  openHandle = (bool) => {
+    this.setState({ formData: Object.assign(this.state.formData, { islock: bool }) })
+  }
+
+  edit = (obj) => {
+    this.props.form.setFieldsValue({
+      password: obj.password
+    })
+    this.setState({
+      formData: Object.assign(this.state.formData, {
+        userId: obj.userId,
+        userName: obj.userName,
+        password: obj.password,
+        remark: obj.remark,
+        email: obj.email,
+        levels: obj.levels,
+        phone: obj.phone,
+        islock: obj.islock !== '0'
+      })
+    }, () => {
+      this.showModal()
     })
   }
 
   updateData = () => {
-    http.post('/productClass/update', {
-      prodclassId: this.state.prodclassId,
-      prodclassName: this.state.prodClassName,
-      described: this.state.described,
-      remark: this.state.remark
+    http.post('/user/update', {
+      ...this.state.formData,
+      islock: this.state.formData.islock ? 1 : 0
     }).then((result) => {
       if (result) {
         this.setState({
@@ -122,44 +114,15 @@ componentWillMount() {
     })
   }
 
-  showModal =(type = 'add') => {
-    if (type === 'add') {
-      this.props.form.setFieldsValue({
-        prodClassName: ''
-      })
-      this.setState({
-        prodclassId: '',
-        prodClassName: '',
-        described: '',
-        remark: ''
-      })
-    }
-    this.setState({
-      ModalShow: true,
-      modalType: type
-    })
-  }
-
-  handleCancel = () => {
-    this.setState({
-      ModalShow: false
-    })
-  }
-
   check = () => {
     this.props.form.validateFields((err) => {
       if (!err) {
-        if (this.state.modalType === 'add') {
-          this.addData()
-        } else {
-          this.updateData()
-        }
+        this.updateData()
       }
     })
   };
 
   render() {
-    const { getFieldDecorator } = this.props.form
     const dataTableProps = {
       columns: createColumns(this),
       dataList: {
@@ -192,16 +155,17 @@ componentWillMount() {
         }
       }
     }
-    const { prodClassName, described, remark } = this.state
+    const { getFieldDecorator } = this.props.form
+    const {
+      prodClassName, described, remark, formData
+    } = this.state
+
     return (
       <Layout>
         <Header style={{
           background: '#fff', paddingLeft: 10, lineHeight: '54px', height: '54px'
         }}
         >
-          <Button type="primary" icon="plus" className="mr-10" onClick={e => this.showModal('add')}>
-            新增
-          </Button>
           <Button type="danger" icon="delete" onClick={e => this.deleteRow()} disabled={!(this.state.selectedRowKeys.length > 0)}>删除</Button>
         </Header>
         <Content>
@@ -211,47 +175,69 @@ componentWillMount() {
           visible={this.state.ModalShow}
           onCancel={this.handleCancel}
           footer={null}
-          title={this.state.modalType === 'add' ? '新增类型' : '修改类型'}
+          title="编辑"
         >
-          <FormItem {...formItemLayout} label="类型名称">
+          <FormItem {...formItemLayout} label="用户名">
+            <Input
+              onChange={(e) => {
+                this.setState({ formData: Object.assign(formData, { userName: e.target.value }) })
+              }}
+              placeholder="请填写用户名"
+              value={formData.userName}
+              disabled
+            />
+          </FormItem>
+          <FormItem {...formItemLayout} label="密码">
             {
-              getFieldDecorator('prodClassName', {
+              getFieldDecorator('password', {
                 rules: [
                   {
                     required: true,
-                    message: '请填写类型名称'
+                    message: '请填写密码'
                   }
                 ],
-                initialValue: this.state.prodClassName
+                initialValue: this.state.formData.password
               })(<Input
                 className="input-view"
                 onChange={(e) => {
-                  this.setState({ prodClassName: e.target.value })
+                  this.setFormData({ password: e.target.value })
                 }}
-                placeholder="请填写类型名称"
+                placeholder="请填写密码"
               />)
             }
 
           </FormItem>
-          <FormItem {...formItemLayout} label="描述">
+          <FormItem {...formItemLayout} label="邮箱">
             <Input
               onChange={(e) => {
-                this.setState({ described: e.target.value })
+                this.setFormData({ email: e.target.value })
               }}
-              placeholder="请填写描述"
-              value={described}
+              placeholder="请填写邮箱"
+              value={formData.email}
             />
           </FormItem>
-          <FormItem {...formItemLayout} label="备注">
+          <FormItem {...formItemLayout} label="手机号">
+            <Input
+              onChange={(e) => {
+                this.setFormData({ phone: e.target.value })
+              }}
+              placeholder="请填写手机号"
+              value={formData.phone}
+            />
+          </FormItem>
+          <FormItem {...formItemLayout} label="是否启用">
+            <Switch checked={formData.islock} onChange={this.openHandle} />
+          </FormItem>
+          {/*  <FormItem {...formItemLayout} label="备注" >
             <TextArea
               autosize={{ minRows: 2, maxRows: 6 }}
               onChange={(e) => {
-                this.setState({ remark: e.target.value })
+                this.setFormData({ remark: e.target.value })
               }}
               placeholder="请填写备注"
-              value={remark}
+              value={formData.remark}
             />
-          </FormItem>
+          </FormItem> */}
           <FormItem {...tailFormItemLayout}>
             <Button type="primary" onClick={this.check}>
             确定
@@ -262,5 +248,5 @@ componentWillMount() {
     )
   }
 }
-const WrappedDynamicRule = Form.create()(list)
+const WrappedDynamicRule = Form.create()(UserManage)
 export default WrappedDynamicRule

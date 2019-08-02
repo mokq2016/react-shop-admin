@@ -5,10 +5,12 @@ import App from '../App.js'
 import Login from '@/views/login/login'
 import test from './test'
 import goodsManageRouter from './goodsManageRouter'
+import userManageRouter from './userManageRouter'
 
 const routers = [
   ...test,
-  goodsManageRouter
+  goodsManageRouter,
+  userManageRouter
 ]
 
 const renderRoutes = routers => routers.map((item, index) => (

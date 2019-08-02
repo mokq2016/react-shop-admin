@@ -3,46 +3,46 @@ import { Button } from 'antd'
 
 export default self => [
   {
-    dataIndex: 'prodclassName',
-    title: '类型名称',
-    name: 'prodclassName',
+    dataIndex: 'userName',
+    title: '用户名',
+    name: 'userName',
     width: 150
   },
   {
     width: 200,
-    dataIndex: 'described',
-    title: '描述',
-    name: 'described'
+    dataIndex: 'password',
+    title: '密码',
+    name: 'password'
   },
-  {
+  /*   {
     width: 200,
     dataIndex: 'remark',
     title: '备注',
     name: 'remark'
+  }, */
+  {
+    width: 150,
+    dataIndex: 'email',
+    title: '邮箱',
+    name: 'email'
   },
   {
     width: 150,
-    dataIndex: 'createdBy',
-    title: '添加人',
-    name: 'createdBy'
+    dataIndex: 'levels',
+    title: '用户等级',
+    name: 'levels'
   },
   {
     width: 150,
-    dataIndex: 'createdTime',
-    title: '添加时间',
-    name: 'createdTime'
+    dataIndex: 'phone',
+    title: '手机号',
+    name: 'phone'
   },
   {
     width: 150,
-    dataIndex: 'updatedBy',
-    title: '更新人',
-    name: 'updatedBy'
-  },
-  {
-    width: 150,
-    dataIndex: 'updatedTime',
-    title: '更新时间',
-    name: 'updatedTime'
+    dataIndex: 'islock',
+    title: '是否启用',
+    name: 'islock'
   },
   {
     title: '操作',

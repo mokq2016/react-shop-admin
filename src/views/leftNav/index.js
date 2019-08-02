@@ -19,10 +19,6 @@ export default class LeftNav extends Component {
           {
             path: '/category',
             name: '分类管理'
-          },
-          {
-            path: '/main/users',
-            name: '用户管理'
           }
         ]
       },
@@ -34,7 +30,7 @@ export default class LeftNav extends Component {
       {
         name: '用户管理',
         icon: 'team',
-        path: '/test2'
+        path: '/userManage'
       }
     ]
     return (
