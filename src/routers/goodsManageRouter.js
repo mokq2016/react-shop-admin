@@ -1,8 +1,9 @@
-import list from '@/views/categoryManage/list.js'
+
+import asyncComponent from '../components/Boundle/Boundle'
 
 export default {
   path: '/category',
-  component: list,
+  component: asyncComponent(() => import('@/views/categoryManage/list.js')),
   exact: true,
   children: [
 

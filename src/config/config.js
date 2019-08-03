@@ -1,3 +1,3 @@
 export default {
-  target: '/api/'
+  target: process.env.NODE_ENV === 'development' ? '/api/' : '/shopAdmin/'
 }

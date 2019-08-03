@@ -1,15 +1,15 @@
-import test1 from '@/views/test/test1'
-import test2 from '@/views/test/test2'
+
+import asyncComponent from '../components/Boundle/Boundle'
 
 export default [
   {
     path: '/test1',
-    component: test1,
+    component: asyncComponent(() => import('@/views/test/test1.js')),
     exact: true
   },
   {
     path: '/test2',
-    component: test2,
+    component: asyncComponent(() => import('@/views/test/test2.js')),
     exact: true
   }
 ]

@@ -1,8 +1,14 @@
-import userComponent from '@/views/userManage/userManage.js'
+import asyncComponent from '../components/Boundle/Boundle'
+
+/* const userComponent = (props) => {
+  <Bundle load={() => import('@/views/userManage/userManage.js')}>
+    {userComponent => <userComponent {...props} />}
+  </Bundle>
+} */
 
 export default {
   path: '/userManage',
-  component: userComponent,
+  component: asyncComponent(() => import('@/views/userManage/userManage.js')),
   exact: true,
   children: [
 
