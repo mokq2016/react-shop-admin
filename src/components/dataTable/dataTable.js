@@ -3,21 +3,21 @@ import { Table, Pagination } from 'antd'
 import './style.scss'
 
 export default class DataTable extends Component {
-  constructor(props) {
+  /*  constructor(props) {
     super(props)
     this.state = {
       selectedRowKeys: []
     }
-  }
+  } */
 
 
   componentWillReceiveProps(nextProps) {
   }
 
   onSelectChange = (selectedRowKeys, selectedRows) => {
-    this.setState({
+    /*    this.setState({
       selectedRowKeys
-    })
+    }) */
     if (this.props.onRowSelect) {
       this.props.onRowSelect({ selectedRowKeys, selectedRows })
     }
@@ -38,7 +38,7 @@ export default class DataTable extends Component {
     } = this.props
     const _rowSelection = {
       type: selectType === 'radio' ? 'radio' : 'checkbox',
-      selectedRowKeys: this.state.selectedRowKeys,
+      selectedRowKeys,
       onChange: this.onSelectChange
     }
     return (

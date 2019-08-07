@@ -48,6 +48,6 @@ export default self => [
     title: '操作',
     key: 'operation',
     width: 200,
-    render: (text, record, index) => (<div><Button className="mr-10" type="primary" onClick={() => { self.edit(record) }}>编辑</Button><Button type="danger" onClick={() => { self.deleteRow(record.prodclassId) }}>删除</Button></div>)
+    render: (text, record, index) => (<div><Button className="mr-10" type="primary" onClick={() => { self.edit(record) }}>编辑</Button><Button type="danger" onClick={() => { self.deleteRow(record.userId) }}>删除</Button></div>)
   }
 ]

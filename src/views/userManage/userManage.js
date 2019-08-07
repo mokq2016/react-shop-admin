@@ -38,28 +38,58 @@ class UserManage extends Component {
     this.setState({ formData: Object.assign(this.state.formData, obj) })
   }
 
-  getData = (currentPage, pageSize) => {
-    http.post('/user/list', {}).then((result) => {
-      this.setState({
-        list: result.list,
-        pager: {
-          currentPage,
-          pageSize,
-          total: result.total
-        }
-      })
+  /**
+   * 删除数据
+   */
+  deleteRow =(userId) => {
+    const self = this
+    confirm({
+      title: '温馨提示',
+      content: '您确定要删除？',
+      onOk() {
+        self.doDelete(userId)
+      },
+      onCancel() {
+        console.log('Cancel')
+      }
     })
   }
 
-  doDelete = (prodclassId) => {
-    const id = prodclassId || this.state.selectRows.map(item => item.prodclassId)
-    http.post('/productClass/delete', {
-      prodclassId: id
-    }).then((result) => {
+  doDelete = (userId) => {
+    const id = userId || this.state.selectRows.map(item => ({ userId: item.userId }))
+    let params = { userId: id }
+    let url = '/user/delete'
+    if (!userId) {
+      params = id
+      url = '/user/deleteList'
+    }
+    http.post(url, params).then((result) => {
       if (result) {
         message.success('删除成功')
         this.getData(this.state.pager.currentPage, this.state.pager.pageSize)
       }
+    })
+  }
+
+  getData = (currentPage, pageSize) => {
+    http.post('/user/list', {
+      page: currentPage,
+      rows: pageSize
+    }).then((result) => {
+      this.setState({
+        selectedRowKeys: [],
+        selectRows: []
+
+      }, () => {
+        this.setState({
+          list: result.list,
+          pager: {
+            currentPage,
+            pageSize,
+            total: result.total
+          }
+        })
+      })
     })
   }
 

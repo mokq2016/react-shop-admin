@@ -37,8 +37,13 @@ componentWillMount() {
 }
 
   getData = (currentPage, pageSize) => {
-    http.post('/productClass/list', {}).then((result) => {
+    http.post('/productClass/list', {
+      page: currentPage,
+      rows: pageSize
+    }).then((result) => {
       this.setState({
+        selectedRowKeys: [],
+        selectRows: [],
         list: result.list,
         pager: {
           currentPage,
@@ -78,10 +83,14 @@ componentWillMount() {
   }
 
   doDelete = (prodclassId) => {
-    const id = prodclassId || this.state.selectRows.map(item => item.prodclassId)
-    http.post('/productClass/delete', {
-      prodclassId: id
-    }).then((result) => {
+    const id = prodclassId || this.state.selectRows.map(item => ({ prodclassId: item.prodclassId }))
+    let url = '/productClass/delete'
+    let params = { prodclassId: id }
+    if (prodclassId === undefined) {
+      url = '/productClass/deleteList'
+      params = id
+    }
+    http.post(url, params).then((result) => {
       if (result) {
         message.success('删除成功')
         this.getData(this.state.pager.currentPage, this.state.pager.pageSize)
